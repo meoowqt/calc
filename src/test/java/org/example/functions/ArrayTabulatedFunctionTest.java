@@ -9,8 +9,6 @@ class ArrayTabulatedFunctionTest {
     private final double[] xValues = new double[]{1., 3.5, 5., 7};
     private final double[] yValues = new double[]{2., 4., 6.9, 8.};
 
-    private final MathFunction sqr = new SqrFunction();
-
     @Test
     void floorIndexOfX() {
         assertEquals(new ArrayTabulatedFunction(xValues, yValues).floorIndexOfX(3), 0, DELTA);
