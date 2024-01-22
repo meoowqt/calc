@@ -1,7 +1,5 @@
 package org.example.functions;
 
-import java.util.Arrays;
-
 public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
     private Node head;
     private int count = 0;
