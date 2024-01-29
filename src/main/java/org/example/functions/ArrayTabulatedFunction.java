@@ -2,10 +2,10 @@ package org.example.functions;
 
 import java.util.Arrays;
 
-public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
-    private final double[] xValues;
-    private final double[] yValues;
-    private final int count;
+public class ArrayTabulatedFunction extends AbstractTabulatedFunction implements Insertable {
+    private double[] xValues;
+    private double[] yValues;
+    private int count;
 
     ArrayTabulatedFunction(double[] xValues, double[] yValues) {
         this.xValues = Arrays.copyOf(xValues, xValues.length);
@@ -99,4 +99,62 @@ public class ArrayTabulatedFunction extends AbstractTabulatedFunction {
     public double rightBound() {
         return xValues[count - 1];
     }
+
+    @Override
+    public void insert(double x, double y) {
+        boolean inArray = false;
+        for (int i = 0; i < count; i++) {
+            if (this.xValues[i] == x) {
+                this.yValues[i] = y;
+                inArray = true;
+                break;
+            }
+        }
+        if (!inArray) {
+            double[] yValues1 = new double[count + 1];
+            double[] xValues1 = new double[count + 1];
+
+            if (x < this.xValues[0]) {
+                xValues1[0] = x;
+                yValues1[0] = y;
+                inArray = true;
+            }
+            for (int i = 0; i < count - 1; i++) {
+                if (x >= this.xValues[i]) {
+                    xValues1[i] = this.xValues[i];
+                    yValues1[i] = this.yValues[i];
+                }
+                if ((this.xValues[i] < x) & (x < this.xValues[i + 1])) {
+                    xValues1[i + 1] = x;
+                    yValues1[i + 1] = y;
+                    inArray = true;
+                }
+                if (inArray & x < this.xValues[i]) {
+                    xValues1[i + 1] = this.xValues[i];
+                    yValues1[i + 1] = this.yValues[i];
+                } else if (this.xValues[i] > x) {
+                    xValues1[i] = this.xValues[i];
+                    yValues1[i] = this.yValues[i];
+                }
+            }
+            if (inArray) {
+                xValues1[count] = this.xValues[count - 1];
+                yValues1[count] = this.yValues[count - 1];
+            } else if (x < this.xValues[count - 1]) {
+                xValues1[count - 1] = x;
+                yValues1[count - 1] = y;
+                xValues1[count] = this.xValues[count - 1];
+                yValues1[count] = this.yValues[count - 1];
+            } else {
+                xValues1[count] = x;
+                yValues1[count] = y;
+                xValues1[count - 1] = this.xValues[count - 1];
+                yValues1[count - 1] = this.yValues[count - 1];
+            }
+            count++;
+            this.yValues = yValues1;
+            this.xValues = xValues1;
+        }
+    }
+
 }

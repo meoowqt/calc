@@ -1,6 +1,6 @@
 package org.example.functions;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable {
     private Node head;
     private int count = 0;
 
@@ -16,6 +16,11 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction {
             addNode(xFrom, source.apply(xFrom));
             xFrom += step;
         }
+    }
+
+    @Override
+    public void insert(double x, double y) {
+
     }
 
     protected static class Node {

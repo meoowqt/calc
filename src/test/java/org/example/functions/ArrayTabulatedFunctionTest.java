@@ -100,4 +100,59 @@ class ArrayTabulatedFunctionTest {
         assertEquals(new ArrayTabulatedFunction(new SqrFunction(), 1, 4, 10).rightBound(), 4, DELTA);
         assertEquals(new ArrayTabulatedFunction(new CosFunction(), 1.7, 8., 3).rightBound(), 8, DELTA);
     }
+
+    @Test
+    public void testInsert() {
+        ArrayTabulatedFunction array1 = new ArrayTabulatedFunction(new double[]{1, 4, 9, 16}, new double[]{1, 16, 81, 256});
+        array1.insert(4, 2);
+        assertEquals(array1.getX(0), 1.0);
+        assertEquals(array1.getY(0), 1.0);
+        assertEquals(array1.getX(1), 4.0);
+        assertEquals(array1.getY(1), 2.0);
+        assertEquals(array1.getX(2), 9.0);
+        assertEquals(array1.getY(2), 81.0);
+        assertEquals(array1.getX(3), 16.0);
+        assertEquals(array1.getY(3), 256.0);
+        assertEquals(array1.getCount(), 4);
+        array1.insert(5, 6);
+        assertEquals(array1.getX(0), 1.0);
+        assertEquals(array1.getY(0), 1.0);
+        assertEquals(array1.getX(1), 4.0);
+        assertEquals(array1.getY(1), 2.0);
+        assertEquals(array1.getX(2), 5.0);
+        assertEquals(array1.getY(2), 6.0);
+        assertEquals(array1.getX(3), 9.0);
+        assertEquals(array1.getY(3), 81.0);
+        assertEquals(array1.getX(4), 16.0);
+        assertEquals(array1.getY(4), 256.0);
+        assertEquals(array1.getCount(), 5);
+        ArrayTabulatedFunction array2 = new ArrayTabulatedFunction(new double[]{1, 4, 9, 16}, new double[]{1, 16, 81, 256});
+        array2.insert(0, 10);
+        array1.insert(5, 6);
+        assertEquals(array2.getX(0), 0.0);
+        assertEquals(array2.getY(0), 10.0);
+        assertEquals(array2.getX(1), 1.0);
+        assertEquals(array2.getY(1), 1.0);
+        assertEquals(array2.getX(2), 4.0);
+        assertEquals(array2.getY(2), 16.0);
+        assertEquals(array2.getX(3), 9.0);
+        assertEquals(array2.getY(3), 81.0);
+        assertEquals(array2.getX(4), 16.0);
+        assertEquals(array2.getY(4), 256.0);
+        assertEquals(array2.getCount(), 5);
+        array2.insert(27, 1010);
+        assertEquals(array2.getX(0), 0.0);
+        assertEquals(array2.getY(0), 10.0);
+        assertEquals(array2.getX(1), 1.0);
+        assertEquals(array2.getY(1), 1.0);
+        assertEquals(array2.getX(2), 4.0);
+        assertEquals(array2.getY(2), 16.0);
+        assertEquals(array2.getX(3), 9.0);
+        assertEquals(array2.getY(3), 81.0);
+        assertEquals(array2.getX(4), 16.0);
+        assertEquals(array2.getY(4), 256.0);
+        assertEquals(array2.getX(5), 27.0);
+        assertEquals(array2.getY(5), 1010.0);
+        assertEquals(array2.getCount(), 6);
+    }
 }
