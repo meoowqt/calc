@@ -1,6 +1,6 @@
 package org.example.functions;
 
-public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable {
+public class LinkedListTabulatedFunction extends AbstractTabulatedFunction implements Insertable, Removable {
     private Node head;
     private int count = 0;
 
@@ -20,7 +20,59 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
 
     @Override
     public void insert(double x, double y) {
+        if (indexOfX(x) != -1) {
+            setY(indexOfX(x), y);
+            return;
+        }
+        if (head == null) {
+            addNode(x, y);
+        } else {
+            Node node = new Node();
+            node.x = x;
+            node.y = y;
 
+            if (head.prev.x < x) {
+                node.next = head;
+                node.prev = head.prev;
+                head.prev.next = node;
+                head.prev = node;
+            } else if (head.x > x) {
+                head.next.prev = head;
+                node.next = head;
+                node.prev = head.prev;
+                head.prev.next = node;
+                head = node;
+            } else if (floorIndexOfX(x) == count) {
+                node.next = head;
+                node.prev = head.prev;
+                head.prev = node;
+                head.prev.next = node;
+                head.prev.prev = node;
+
+            } else {
+                int ind = floorIndexOfX(x);
+                Node check = getNode(ind);
+                node.next = check.next;
+                node.prev = check;
+                check.next = node;
+            }
+        }
+        count++;
+    }
+
+    @Override
+    public void remove(int index) {
+        if (index == 0) {
+            head.next.prev = head.prev;
+            head.prev.next = head.next;
+            head = head.next;
+        } else {
+            Node delete = getNode(index);
+            Node prevDelete = getNode(index - 1);
+            prevDelete.next = delete.next;
+            delete.next.prev = prevDelete;
+        }
+        count--;
     }
 
     protected static class Node {
@@ -48,7 +100,7 @@ public class LinkedListTabulatedFunction extends AbstractTabulatedFunction imple
         count++;
     }
 
-    private Node getNode(int index) {
+    Node getNode(int index) {
         Node indexNode;
         if (index < count / 2.) {
             indexNode = head;
