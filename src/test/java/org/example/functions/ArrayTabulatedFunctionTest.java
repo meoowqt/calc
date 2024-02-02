@@ -155,4 +155,29 @@ class ArrayTabulatedFunctionTest {
         assertEquals(array2.getY(5), 1010.0);
         assertEquals(array2.getCount(), 6);
     }
+
+    @Test
+    public void testRemove() {
+        ArrayTabulatedFunction array = new ArrayTabulatedFunction(new double[]{1, 4, 9, 10, 16}, new double[]{1, 16, 81, 100, 256});
+        array.remove(0);
+        assertEquals(array.getX(0), 4.0);
+        assertEquals(array.getY(0), 16.0);
+        assertEquals(array.getX(1), 9.0);
+        assertEquals(array.getY(1), 81.0);
+        assertEquals(array.getX(2), 10.0);
+        assertEquals(array.getY(2), 100.0);
+        assertEquals(array.getCount(), 4);
+        assertEquals(array.getY(1), 81.0);
+        array.remove(1);
+        assertEquals(array.getX(0), 4.0);
+        assertEquals(array.getY(0), 16.0);
+        assertEquals(array.getX(1), 10.0);
+        assertEquals(array.getY(1), 100.0);
+        assertEquals(array.getCount(), 3);
+        array.remove(2);
+        assertEquals(array.getX(0), 4);
+        assertEquals(array.getY(0), 16);
+        assertEquals(array.getX(1), 10);
+        assertEquals(array.getY(1), 100);
+    }
 }
